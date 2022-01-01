@@ -16,7 +16,7 @@ namespace TopologyLibrary
     class Device {
     public:
         Device(string id, string type, string name, DeviceValues deviceValues, NetList netlist);
-
+        string getId();
         bool operator == (const Device& d) const { return this->id == d.id; }
         bool operator != (const Device& d) const { return !operator==(d); }
         NetList getNetList();
@@ -32,9 +32,10 @@ namespace TopologyLibrary
     public:
         DeviceList();
         void addDevice(Device d);
-        std::list<Device> getList();
+        Device getDevice(string DeviceID);
+        std::map< string , Device> getList();
     private:
-        std::list<Device> deviceList;
+        std::map< string, Device> deviceList;
     };
 
 
@@ -66,7 +67,7 @@ namespace TopologyLibrary
         void addTopology(Topology t);
         bool isTopologyExist(string TopologyID);
         bool removeTopology(string TopologyID);
-
+        void printTopologies();
         std::map<string, Topology> getList();
         Topology getTopology(string TopologyID);
     private:
@@ -75,9 +76,9 @@ namespace TopologyLibrary
 
 
  
-    TopologyList tList;
     Topology readJSON(string FileName);
     bool writeJSON(string FileName, Topology topology);
+    TopologyList queryTopologies();
     bool deleteTopology(string TopologyID);
     DeviceList queryDevices(string TopologyID);
     bool isNetlistNodeConnected(NetList netList, string node);

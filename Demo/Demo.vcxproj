@@ -150,6 +150,10 @@
       <Project>{1fdfec90-465e-49ce-819e-293b7f0344b3}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\demo.json" />
+    <None Include="src\demo2.json" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

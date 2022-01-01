@@ -3,6 +3,8 @@
 
 namespace TopologyLibrary
 {
+    TopologyList tList;
+
     Device::Device(string id, string type, string name, DeviceValues deviceValues, NetList netlist) {
         this->id = id;
         this->type = type;
@@ -10,11 +12,14 @@ namespace TopologyLibrary
         this->deviceValues = deviceValues;
         this->netlist = netlist;
     };
+   string Device::getId() {
+        return this->id;
+    }
     DeviceList::DeviceList(){};
     void  DeviceList::addDevice(Device d){
-        this->deviceList.push_back(d);
+        this->deviceList.insert({d.getId(), d});
     };
-    std::list<Device>  DeviceList::getList() {
+    std::map< string, Device>  DeviceList::getList() {
         return this->deviceList;
     };
 
@@ -79,7 +84,10 @@ namespace TopologyLibrary
          }
          return false;
     };
-  
+    void TopologyList::printTopologies() {
+        for (auto itr = this->topologyList.begin(); itr != this->topologyList.end(); itr++)
+            std::cout << "id :" << itr->first << std::endl << ", json :" << itr->second.getRawJson() << std::endl;
+    };
     std::map<string, Topology> TopologyList::getList()
     {
         return this->topologyList;
@@ -149,12 +157,12 @@ namespace TopologyLibrary
     }
     DeviceList queryDevicesWithNetlistNode(string TopologyID, string NetlistNodeID) {
         DeviceList dList;
-       
         if (tList.isTopologyExist(TopologyID))
-        {
-            for (Device device : tList.getTopology(TopologyID).getDeviceList()) {
-                if (isNetlistNodeConnected(device.getNetList(), NetlistNodeID))
-                    dList.getDevice(device);
+        {   
+            DeviceList temp = tList.getTopology(TopologyID).getDeviceList();
+            for (auto itr = temp.getList().begin(); itr != temp.getList().end(); itr++) {
+                if (isNetlistNodeConnected(itr->second.getNetList(), NetlistNodeID))
+                    dList.addDevice(itr->second);
             }
         }
         return dList;
