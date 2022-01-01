@@ -10,6 +10,14 @@ namespace TopologyLibrary
         this->deviceValues = deviceValues;
         this->netlist = netlist;
     };
+    DeviceList::DeviceList(){};
+    void  DeviceList::addDevice(Device d){
+        this->deviceList.push_back(d);
+    };
+    std::list<Device>  DeviceList::getList() {
+        return this->deviceList;
+    };
+
     NetList Device::getNetList() {
         return this->netlist;
     };
@@ -38,7 +46,7 @@ namespace TopologyLibrary
                 netlist.insert({ key , obj["netlist"][key].asString() });
 
             Device device(itr["id"].asString(), itr["type"].asString(), deviceName, deviceValues, netlist);
-            this->deviceList.push_back(device);
+            this->deviceList.addDevice(device);
         }
     };
     void Topology::printTopology() {
@@ -54,6 +62,31 @@ namespace TopologyLibrary
         return this->deviceList;
     };
 
+    TopologyList::TopologyList(){}
+    void TopologyList::addTopology(Topology t) {
+        this->topologyList.insert({ t.getId(),t });
+    };
+    bool   TopologyList::isTopologyExist(string TopologyID) {
+        std::map<string, Topology>::iterator it;
+        it = this->topologyList.find(TopologyID);
+        return it != this->topologyList.end();
+    };
+    bool TopologyList::removeTopology(string TopologyID) {
+         if (isTopologyExist(TopologyID))
+         {
+             this->topologyList.erase(TopologyID);
+             return true;
+         }
+         return false;
+    };
+  
+    std::map<string, Topology> TopologyList::getList()
+    {
+        return this->topologyList;
+    };
+    Topology TopologyList::getTopology(string TopologyID) {
+        return this->topologyList.find(TopologyID)->second;
+    };
 
 
     Topology readJSON(string FileName) {
@@ -66,7 +99,7 @@ namespace TopologyLibrary
         }
         file >> root;
         Topology t(root);
-        tList.insert({ t.getId(), t });
+        tList.addTopology(t);
         return t;
     }
     bool writeJSON(string FileName, Topology topology) {
@@ -96,23 +129,12 @@ namespace TopologyLibrary
         return tList;
     }
     bool deleteTopology(string TopologyID) {
-        TopologyList::iterator it;
-        it = tList.find(TopologyID);
-        if (it != tList.end())
-        {
-            tList.erase(it);
-            return true;
-        }
-
-        return false;
+        return tList.removeTopology(TopologyID);
     }
     DeviceList queryDevices(string TopologyID) {
-        TopologyList::iterator it;
-        it = tList.find(TopologyID);
-        if (it != tList.end())
-        {
-            return it->second.getDeviceList();
-        }
+   
+        if (tList.isTopologyExist(TopologyID))      
+            return tList.getTopology(TopologyID).getDeviceList();
         return DeviceList();
     }
     bool isNetlistNodeConnected(NetList netList, string node) {
@@ -127,13 +149,12 @@ namespace TopologyLibrary
     }
     DeviceList queryDevicesWithNetlistNode(string TopologyID, string NetlistNodeID) {
         DeviceList dList;
-        TopologyList::iterator it;
-        it = tList.find(TopologyID);
-        if (it != tList.end())
+       
+        if (tList.isTopologyExist(TopologyID))
         {
-            for (Device device : it->second.getDeviceList()) {
+            for (Device device : tList.getTopology(TopologyID).getDeviceList()) {
                 if (isNetlistNodeConnected(device.getNetList(), NetlistNodeID))
-                    dList.push_back(device);
+                    dList.getDevice(device);
             }
         }
         return dList;

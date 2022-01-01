@@ -5,11 +5,11 @@
 #include <iostream>
 #include <fstream> 
 #include <json/json.h>
-
-typedef std::string string;
+typedef std::string  string;
 typedef Json::Value json_ob;
 typedef std::map<string, string> NetList;
 typedef std::map<string, double>DeviceValues;
+
 
 namespace TopologyLibrary
 {
@@ -27,7 +27,16 @@ namespace TopologyLibrary
         NetList netlist;
         DeviceValues deviceValues;
     };
-    typedef std::list<Device> DeviceList;
+
+    class DeviceList {
+    public:
+        DeviceList();
+        void addDevice(Device d);
+        std::list<Device> getList();
+    private:
+        std::list<Device> deviceList;
+    };
+
 
     class Topology {
     public:
@@ -35,7 +44,7 @@ namespace TopologyLibrary
         Topology();
         Topology(json_ob obj);
         string getId();
-        //void setId(string id);
+        void setId(string id);
         void printTopology();
         json_ob getRawJson();
         DeviceList getDeviceList();
@@ -47,8 +56,25 @@ namespace TopologyLibrary
         string id;
         DeviceList deviceList;
     };
-    typedef std::map<string, Topology> TopologyList;
 
+   
+   // 
+    class TopologyList
+    {
+    public:
+        TopologyList();
+        void addTopology(Topology t);
+        bool isTopologyExist(string TopologyID);
+        bool removeTopology(string TopologyID);
+
+        std::map<string, Topology> getList();
+        Topology getTopology(string TopologyID);
+    private:
+        std::map<string, Topology> topologyList;
+    };
+
+
+ 
     TopologyList tList;
     Topology readJSON(string FileName);
     bool writeJSON(string FileName, Topology topology);
