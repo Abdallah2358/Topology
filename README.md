@@ -8,7 +8,7 @@
 - [Development note](development-note)
 ## Description
 
- An API library which does the following:
+ A Static API library which does the following:
   1. Read a topology from a given JSON file and store it in the memory.
   2. Write a given topology from the memory to a JSON file.
   3. Query about which topologies are currently in the memory.
@@ -76,7 +76,7 @@ using namespace TopologyLibrary;
     DeviceList queryDevicesWithNetlistNode(string TopologyID, string NetlistNodeID);
 ```
 > A demo file can be found [here](./Demo/src/demo.cpp)
-
+> Demo Json files can be found here [src](./Demo/src)
 
 ## Development note 
 To start this project using [Visual studio community 2022](https://visualstudio.microsoft.com/) simply open this file [Topology.sln](Topology.sln)
