@@ -1,3 +1,7 @@
+## [**Table of content**](#table-of-content):
+[Description](#description)
+[Getting started:](#getting-started)
+
 ## Description
 
  An API library which does the following:
@@ -8,4 +12,8 @@
   5. Query about which devices are in a given topology.
   6. Query about which devices are connected to a given netlist node in
   a given topology.
+
+## Getting started:
+
+### Requirements and pre-requisites
 
