@@ -1,12 +1,11 @@
-## [**Table of content**:](#table-of-content)
-- [**Table of content**:](#table-of-content)
+- ## [**Table of content**](#table-of-content)
 - [Description](#description)
 - [Getting started:](#getting-started)
   - [Requirements and pre-requisites](#requirements-and-pre-requisites)
   - [API Usage :](#api-usage-)
     - [Includes](#includes)
     - [Code Examples :](#code-examples-)
-
+- [Development note](development-note)
 ## Description
 
  An API library which does the following:
@@ -22,23 +21,23 @@
 
 ### Requirements and pre-requisites
 
-This API  depends on [jsoncpp](https://github.com/open-source-parsers/jsoncpp) package to easily install this packge you can use [vcpkg](https://vcpkg.io/en/index.html) using the following commands 
+This API  depends on [jsoncpp](https://github.com/open-source-parsers/jsoncpp) package to easily install this package you can use [vcpkg](https://vcpkg.io/en/index.html) using the following commands 
 
 > #### Windows setup of jsoncpp :
-
+```powershell
     git clone https://github.com/Microsoft/vcpkg.git
     .\vcpkg\bootstrap-vcpkg.bat
     .\vcpkg\vcpkg integrate install
     .\vcpkg\vcpkg installjsoncpp
-
+```
 > #### linux setup of jsoncpp:
-
+```bash
     git clone https://github.com/Microsoft/vcpkg.git
     cd vcpkg
     ./bootstrap-vcpkg.sh
-    ./vcpkg integrate install
+    ./vcpkg integrate install   # used to 
     ./vcpkg install jsoncpp
-
+```
 
 ### API Usage :
 
@@ -76,6 +75,12 @@ using namespace TopologyLibrary;
     // a given topology.
     DeviceList queryDevicesWithNetlistNode(string TopologyID, string NetlistNodeID);
 ```
+> A demo file can be found [here](./Demo/src/demo.cpp)
 
+
+## Development note 
+To start this project using [Visual studio community 2022](https://visualstudio.microsoft.com/) simply open this file [Topology.sln](Topology.sln)
+
+_But make sure to have the required tools downloaded_
 
 
